@@ -107,7 +107,7 @@ class _ClockPageState extends State<ClockPage> {
 
 class DigitalClockWidget extends StatefulWidget {
   const DigitalClockWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -117,7 +117,7 @@ class DigitalClockWidget extends StatefulWidget {
 
 class DigitalClockWidgetState extends State<DigitalClockWidget> {
   var formattedTime = DateFormat('HH:mm').format(DateTime.now());
-  Timer timer;
+  late Timer timer;
 
   @override
   void initState() {

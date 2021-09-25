@@ -5,16 +5,16 @@ import 'package:clock_app/constants/theme_data.dart';
 import 'package:flutter/material.dart';
 
 class ClockView extends StatefulWidget {
-  final double size;
+  final double? size;
 
-  const ClockView({Key key, this.size}) : super(key: key);
+  const ClockView({Key? key, this.size}) : super(key: key);
 
   @override
   _ClockViewState createState() => _ClockViewState();
 }
 
 class _ClockViewState extends State<ClockView> {
-  Timer timer;
+  late Timer timer;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class ClockPainter extends CustomPainter {
     var centerDotBrush = Paint()..color = CustomColors.clockOutline;
 
     var secHandBrush = Paint()
-      ..color = CustomColors.secHandColor
+      ..color = CustomColors.secHandColor!
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = size.width / 60;

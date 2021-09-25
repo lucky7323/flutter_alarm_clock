@@ -15,11 +15,11 @@ class AlarmPage extends StatefulWidget {
 }
 
 class _AlarmPageState extends State<AlarmPage> {
-  DateTime _alarmTime;
-  String _alarmTimeString;
+  DateTime? _alarmTime;
+  late String _alarmTimeString;
   AlarmHelper _alarmHelper = AlarmHelper();
-  Future<List<AlarmInfo>> _alarms;
-  List<AlarmInfo> _currentAlarms;
+  Future<List<AlarmInfo>>? _alarms;
+  List<AlarmInfo>? _currentAlarms;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class _AlarmPageState extends State<AlarmPage> {
                 if (snapshot.hasData) {
                   _currentAlarms = snapshot.data;
                   return ListView(
-                    children: snapshot.data.map<Widget>((alarm) {
+                    children: snapshot.data!.map<Widget>((alarm) {
                       var alarmTime =
-                          DateFormat('hh:mm aa').format(alarm.alarmDateTime);
+                          DateFormat('hh:mm aa').format(alarm.alarmDateTime!);
                       var gradientColor = GradientTemplate
-                          .gradientTemplate[alarm.gradientColorIndex].colors;
+                          .gradientTemplate[alarm.gradientColorIndex!].colors;
                       return Container(
                         margin: const EdgeInsets.only(bottom: 32),
                         padding: const EdgeInsets.symmetric(
@@ -98,7 +98,7 @@ class _AlarmPageState extends State<AlarmPage> {
                                     ),
                                     SizedBox(width: 8),
                                     Text(
-                                      alarm.title,
+                                      alarm.title!,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'avenir'),
@@ -140,7 +140,7 @@ class _AlarmPageState extends State<AlarmPage> {
                         ),
                       );
                     }).followedBy([
-                      if (_currentAlarms.length < 5)
+                      if (_currentAlarms!.length < 5)
                         DottedBorder(
                           strokeWidth: 2,
                           color: CustomColors.clockOutline,
@@ -297,31 +297,31 @@ class _AlarmPageState extends State<AlarmPage> {
         presentBadge: true,
         presentSound: true);
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.schedule(0, 'Office', alarmInfo.title,
         scheduledNotificationDateTime, platformChannelSpecifics);
   }
 
   void onSaveAlarm() {
-    DateTime scheduleAlarmDateTime;
-    if (_alarmTime.isAfter(DateTime.now()))
+    DateTime? scheduleAlarmDateTime;
+    if (_alarmTime!.isAfter(DateTime.now()))
       scheduleAlarmDateTime = _alarmTime;
     else
-      scheduleAlarmDateTime = _alarmTime.add(Duration(days: 1));
+      scheduleAlarmDateTime = _alarmTime!.add(Duration(days: 1));
 
     var alarmInfo = AlarmInfo(
       alarmDateTime: scheduleAlarmDateTime,
-      gradientColorIndex: _currentAlarms.length,
+      gradientColorIndex: _currentAlarms!.length,
       title: 'alarm',
     );
     _alarmHelper.insertAlarm(alarmInfo);
-    scheduleAlarm(scheduleAlarmDateTime, alarmInfo);
+    scheduleAlarm(scheduleAlarmDateTime!, alarmInfo);
     Navigator.pop(context);
     loadAlarms();
   }
 
-  void deleteAlarm(int id) {
+  void deleteAlarm(int? id) {
     _alarmHelper.delete(id);
     //unsubscribe for notification
     loadAlarms();

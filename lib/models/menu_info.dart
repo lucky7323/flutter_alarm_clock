@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 
 class MenuInfo extends ChangeNotifier {
   MenuType menuType;
-  String title;
-  String imageSource;
+  String? title;
+  String? imageSource;
 
   MenuInfo(this.menuType, {this.title, this.imageSource});
 
